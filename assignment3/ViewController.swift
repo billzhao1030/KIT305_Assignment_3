@@ -9,12 +9,17 @@ import UIKit
 import Firebase
 import FirebaseFirestoreSwift
 
+let DATABASE = "gamesIOS"
+
 class ViewController: UIViewController {
 
     let defalutFile = UserDefaults.standard // name file
     
+    var gameType: Bool = true // game type
+    
     @IBOutlet var usernameTextField: UITextField!
     
+    @IBOutlet var summaryText: UITextView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -23,6 +28,8 @@ class ViewController: UIViewController {
         
         //let db = Firestore.firestore()
         //let games = db.collection("games")
+        
+        setSummaryText()
     }
 
     // set the username
@@ -34,16 +41,29 @@ class ViewController: UIViewController {
     }
     
     @IBAction func modeSelectPrescribed(_ sender: Any) {
-        print("game 1")
+        gameType = true
     }
     
     @IBAction func modeSelectDesigned(_ sender: Any) {
-        print("game 2")
+        gameType = false
     }
     
     
     @IBAction func goToHistory(_ sender: Any) {
         print("history")
+    }
+    
+    // set the total repetition round text
+    func setSummaryText() {
+        var summary = "Loading..."
+        var prescribedTotal = 0
+        var designedTotal = 0
+        
+        let db = Firestore.firestore()
+        let games = db.collection(DATABASE)
+        
+        
+        summaryText.text = summary
     }
     
     @IBAction func unwindToMenuPage(sender: UIStoryboardSegue) {

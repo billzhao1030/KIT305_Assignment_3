@@ -18,6 +18,7 @@
 		1C9B514427E9513C00BF3E2C /* PrescribedCustomize.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C9B514327E9513B00BF3E2C /* PrescribedCustomize.swift */; };
 		1C9B514627E9517600BF3E2C /* HistoryController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C9B514527E9517600BF3E2C /* HistoryController.swift */; };
 		1C9B514827E954E700BF3E2C /* GameController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C9B514727E954E700BF3E2C /* GameController.swift */; };
+		1C9B514A27E95D6400BF3E2C /* DesignedCustomize.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C9B514927E95D6400BF3E2C /* DesignedCustomize.swift */; };
 		56D5E91A95E934CD1668CDBA /* Pods_assignment3.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A4E5FF772E29FB5206F6C45C /* Pods_assignment3.framework */; };
 /* End PBXBuildFile section */
 
@@ -35,6 +36,7 @@
 		1C9B514327E9513B00BF3E2C /* PrescribedCustomize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrescribedCustomize.swift; sourceTree = "<group>"; };
 		1C9B514527E9517600BF3E2C /* HistoryController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryController.swift; sourceTree = "<group>"; };
 		1C9B514727E954E700BF3E2C /* GameController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameController.swift; sourceTree = "<group>"; };
+		1C9B514927E95D6400BF3E2C /* DesignedCustomize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DesignedCustomize.swift; sourceTree = "<group>"; };
 		886B11EBC8426370165CC69B /* Pods-assignment3.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-assignment3.release.xcconfig"; path = "Target Support Files/Pods-assignment3/Pods-assignment3.release.xcconfig"; sourceTree = "<group>"; };
 		909CDA0891EDC745D007F729 /* Pods-assignment3.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-assignment3.debug.xcconfig"; path = "Target Support Files/Pods-assignment3/Pods-assignment3.debug.xcconfig"; sourceTree = "<group>"; };
 		A4E5FF772E29FB5206F6C45C /* Pods_assignment3.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_assignment3.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -81,6 +83,7 @@
 				1C9B512F27DF1E5000BF3E2C /* ViewController.swift */,
 				1C9B514127E93DAF00BF3E2C /* Game.swift */,
 				1C9B513127DF1E5000BF3E2C /* Main.storyboard */,
+				1C9B514927E95D6400BF3E2C /* DesignedCustomize.swift */,
 				1C9B514727E954E700BF3E2C /* GameController.swift */,
 				1C9B513427DF1E5200BF3E2C /* Assets.xcassets */,
 				1C9B513627DF1E5200BF3E2C /* LaunchScreen.storyboard */,
@@ -222,6 +225,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1C9B514A27E95D6400BF3E2C /* DesignedCustomize.swift in Sources */,
 				1C9B514427E9513C00BF3E2C /* PrescribedCustomize.swift in Sources */,
 				1C9B513027DF1E5000BF3E2C /* ViewController.swift in Sources */,
 				1C9B512C27DF1E5000BF3E2C /* AppDelegate.swift in Sources */,

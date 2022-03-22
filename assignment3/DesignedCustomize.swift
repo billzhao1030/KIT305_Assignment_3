@@ -1,7 +1,7 @@
 
 import UIKit
 
-class HistoryController: UIViewController {
+class DesignedCustomize: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -9,13 +9,7 @@ class HistoryController: UIViewController {
         // Do any additional setup after loading the view.
     }
     
-    @IBAction func shareAllHistory(_ sender: Any) {
-        let shareView = UIActivityViewController (
-            activityItems: ["nice history to share"],
-            applicationActivities: [])
-        present(shareView, animated: true, completion: nil)
-    }
-    
+
     /*
     // MARK: - Navigation
 
