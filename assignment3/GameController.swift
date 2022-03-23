@@ -4,7 +4,6 @@ import Firebase
 import FirebaseFirestoreSwift
 
 class GameController: UIViewController {
-    
     var id = ""
     
     var gameType = true
@@ -16,6 +15,7 @@ class GameController: UIViewController {
     var hasIndication = true
     var buttonSize = 2
     
+    var completed = false
     var btnNow = 1
     var completeRound = 0
     
@@ -23,7 +23,8 @@ class GameController: UIViewController {
     
     var buttonList = 1
     
-
+    @IBOutlet var gameProgress: UILabel!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -37,24 +38,7 @@ class GameController: UIViewController {
             startDesignedGame()
         }
     }
-    
-    @objc func prescribedButton(sender: UIButton!) {
-        print("id:\(sender.tag)")
-        
-        if sender.tag == btnNow {
-            btnNow += 1
-        } else {
             
-        }
-        
-        if btnNow > numOfButtons {
-            btnNow = 1
-            completeRound += 1
-            
-            reposition()
-        }
-    }
-        
     
     func startPrescribedGame(){
         createButtons()
@@ -64,7 +48,7 @@ class GameController: UIViewController {
     
     
     func startDesignedGame() {
-        
+        initGameStore()
     }
     
     func presetPrescribed() {
@@ -72,10 +56,44 @@ class GameController: UIViewController {
         buttonSize = buttonSize * 30 + 70
         print("After: \(buttonSize)")
 
+        initGameStore()
+        
+        if gameMode == true {
+            if round == -1 {
+                gameProgress.text = "1 of \(round) round"
+            } else {
+                
+            }
+        } else {
+            gameProgress.text = "Round 1"
+        }
+    }
+    
+    func initGameStore() {
         let db = Firestore.firestore()
         let games = db.collection(DATABASE)
         
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "dd/MM/yyyy HH:mm:ss"
+        let currentTime = dateFormatter.string(from: Date())
+        dateFormatter.dateFormat = "yyyyMMddHHmmss"
+        id = dateFormatter.string(from: Date())
         
+        games.document(id).setData([
+            "completed": completed,
+            "startTime": currentTime,
+            "endTime": currentTime,
+            "gameMode": gameMode,
+            "gameType": gameType,
+            "repetition": completeRound,
+            "buttonList": buttonList
+        ]) { err in
+            if let err = err {
+                print("Error writing document: \(err)")
+            } else {
+                print("Document succesfully written!")
+            }
+        }
     }
     
     func getPositionX() -> Array<Int>{
@@ -116,19 +134,23 @@ class GameController: UIViewController {
     }
     
     func createButtons() {
-        for index in 1...numOfButtons {
-            let button = UIButton(type: .system)
-            button.frame = CGRect(x: 200, y: 200, width: buttonSize, height: buttonSize)
-            button.backgroundColor = .yellow
-            button.layer.cornerRadius = CGFloat(buttonSize / 2)
-            button.setTitle("\(index)", for: .normal)
-            button.setTitleColor(.black, for: .normal)
-            button.titleLabel?.font = .systemFont(ofSize: 32, weight: .bold)
-            button.addTarget(self, action: #selector(prescribedButton), for: .touchUpInside)
-            button.tag = index
-            print("id: \(button.tag)")
+        if gameType == true {
+            for index in 1...numOfButtons {
+                let button = UIButton(type: .system)
+                button.frame = CGRect(x: 200, y: 200, width: buttonSize, height: buttonSize)
+                button.backgroundColor = .yellow
+                button.layer.cornerRadius = CGFloat(buttonSize / 2)
+                button.setTitle("\(index)", for: .normal)
+                button.setTitleColor(.black, for: .normal)
+                button.titleLabel?.font = .systemFont(ofSize: 32, weight: .bold)
+                button.addTarget(self, action: #selector(prescribedButtonAction), for: .touchUpInside)
+                button.tag = index
+                print("id: \(button.tag)")
 
-            self.view.addSubview(button)
+                self.view.addSubview(button)
+            }
+        } else {
+            
         }
     }
     
@@ -150,11 +172,74 @@ class GameController: UIViewController {
         }
     }
     
-    func uploadRound() {
+    @objc func prescribedButtonAction(sender: UIButton!) {
+        print("id:\(sender.tag)")
         
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "HH:mm:ss"
+        let time = dateFormatter.string(from: Date())
+        
+        if sender.tag == btnNow {
+            btnNow += 1
+            
+            
+            uploadButtonList()
+        } else {
+            
+            
+            uploadButtonList()
+        }
+        
+        if btnNow > numOfButtons {
+            btnNow = 1
+            completeRound += 1
+            
+            reposition()
+        }
+    }
+    
+    func uploadRound() {
+        let db = Firestore.firestore()
+        let games = db.collection(DATABASE)
+        
+        games.document(id).updateData([
+            "repetition": completeRound
+        ]) { (err) in
+            if let err = err {
+                print("Error updating repetition: \(err)")
+            } else {
+                print("Document updated!")
+            }
+        }
     }
     
     func uploadButtonList() {
+        let db = Firestore.firestore()
+        let games = db.collection(DATABASE)
+        
+        games.document(id).updateData([
+            "buttonList": buttonList
+        ]) { (err) in
+            if let err = err {
+                print("Error updating repetition: \(err)")
+            } else {
+                print("Document updated!")
+            }
+        }
+    }
+    
+    func completeGame() {
+        let db = Firestore.firestore()
+        let games = db.collection(DATABASE)
+        
+        
+    }
+    
+    func highlight() {
+        
+    }
+    
+    func goToMenu() {
         
     }
     

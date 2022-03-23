@@ -30,6 +30,7 @@ class ViewController: UIViewController {
         //let games = db.collection("games")
         
         setSummaryText()
+        
     }
 
     // set the username
