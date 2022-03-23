@@ -144,7 +144,7 @@
             <objects>
                 <viewController id="9sU-4R-lsN" customClass="PrescribedCustomize" customModule="assignment3" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="0Bo-3u-fwl">
-                        <rect key="frame" x="0.0" y="0.0" width="704" height="995"/>
+                        <rect key="frame" x="0.0" y="0.0" width="704" height="995.5"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WjH-bs-nJp">
@@ -183,7 +183,7 @@
                                     <segue destination="bOH-hZ-Ibg" kind="presentation" identifier="goToGameFromPrescribed" modalPresentationStyle="fullScreen" id="JTj-DA-Y2K"/>
                                 </connections>
                             </button>
-                            <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="3" minValue="1" maxValue="5" translatesAutoresizingMaskIntoConstraints="NO" id="DsF-SA-6Fz">
+                            <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="2.5499999999999998" minValue="1" maxValue="3.8999999999999999" translatesAutoresizingMaskIntoConstraints="NO" id="DsF-SA-6Fz">
                                 <rect key="frame" x="423" y="795" width="118" height="31"/>
                                 <connections>
                                     <action selector="onSliderValueChanged:" destination="9sU-4R-lsN" eventType="valueChanged" id="EDa-rv-dgE"/>
@@ -378,14 +378,6 @@
                                     <action selector="pauseGame:" destination="bOH-hZ-Ibg" eventType="touchUpInside" id="Y6S-4X-u4C"/>
                                     <segue destination="VS7-fG-XHg" kind="presentation" identifier="pauseSegue" modalPresentationStyle="formSheet" id="SSa-T3-nsy"/>
                                 </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Fw9-OO-eo2">
-                                <rect key="frame" x="230" y="444" width="152" height="68"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain" title="Button">
-                                    <fontDescription key="titleFontDescription" type="system" pointSize="45"/>
-                                </buttonConfiguration>
                             </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="TFO-SC-EOf"/>

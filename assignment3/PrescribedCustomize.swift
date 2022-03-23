@@ -30,7 +30,7 @@ class PrescribedCustomize: UIViewController, UIPickerViewDelegate, UIPickerViewD
     var time = -1
     
     var numOfButtons = 3
-    var buttonSize = 3
+    var buttonSize = 2
     var isRandom = true
     var hasIndication = true
     
