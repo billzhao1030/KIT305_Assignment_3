@@ -17,19 +17,19 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Stroke Rehabilitation Exercise" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ata-Mr-sSY">
-                                <rect key="frame" x="16" y="56" width="788" height="57.5"/>
+                                <rect key="frame" x="16" y="32" width="788" height="57.5"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="48"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Type your name here:" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tnU-7N-hn9">
-                                <rect key="frame" x="32" y="149.5" width="756" height="37"/>
+                                <rect key="frame" x="32" y="125.5" width="756" height="37"/>
                                 <fontDescription key="fontDescription" type="italicSystem" pointSize="31"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Bill Zhao" borderStyle="roundedRect" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="EQs-qO-Qbj">
-                                <rect key="frame" x="300" y="202.5" width="220" height="50"/>
+                                <rect key="frame" x="300" y="178.5" width="220" height="50"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="CT5-Nv-8VN"/>
                                 </constraints>
@@ -40,7 +40,7 @@
                                 </connections>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qAz-k2-J8H">
-                                <rect key="frame" x="133" y="352.5" width="554" height="110"/>
+                                <rect key="frame" x="133" y="328.5" width="554" height="110"/>
                                 <constraints>
                                     <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="110" id="tQC-M4-haD"/>
                                 </constraints>
@@ -58,7 +58,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nD1-bd-KhO">
-                                <rect key="frame" x="133" y="542.5" width="554" height="110"/>
+                                <rect key="frame" x="133" y="518.5" width="554" height="110"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="110" id="NJu-AV-ExB"/>
                                 </constraints>
@@ -76,7 +76,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="04f-eC-c0r">
-                                <rect key="frame" x="133" y="732.5" width="554" height="110"/>
+                                <rect key="frame" x="133" y="708.5" width="554" height="110"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="110" id="HhB-tp-55L"/>
                                 </constraints>
@@ -94,7 +94,7 @@
                                 </connections>
                             </button>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="Some summary" textAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="1Fi-5j-4Gp">
-                                <rect key="frame" x="133" y="882.5" width="554" height="200"/>
+                                <rect key="frame" x="133" y="858.5" width="554" height="200"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="200" id="qzz-G3-dZI"/>
@@ -130,6 +130,7 @@
                             <constraint firstItem="EQs-qO-Qbj" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="300" id="wKg-Mc-4NV"/>
                         </constraints>
                     </view>
+                    <navigationItem key="navigationItem" id="Ivu-fb-TgG"/>
                     <connections>
                         <outlet property="summaryText" destination="1Fi-5j-4Gp" id="Qyj-b5-R1f"/>
                         <outlet property="usernameTextField" destination="EQs-qO-Qbj" id="Fj5-RF-u1T"/>
@@ -461,6 +462,10 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="jxU-H4-1Nq"/>
+                    <connections>
+                        <segue destination="BYZ-38-t0r" kind="presentation" identifier="goToMenuFromGame" modalPresentationStyle="fullScreen" id="66p-ZW-3pA"/>
+                        <segue destination="ee9-QY-NxF" kind="presentation" identifier="completeGame" modalPresentationStyle="fullScreen" id="2c2-v5-cg1"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="yNE-GE-CUd" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <exit id="C9v-2h-v3u" userLabel="Exit" sceneMemberID="exit"/>
@@ -583,7 +588,7 @@
             <objects>
                 <viewController id="Qsx-a2-Rok" customClass="DesignedCustomize" customModule="assignment3" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="zfN-s3-8XD">
-                        <rect key="frame" x="0.0" y="0.0" width="704" height="995.5"/>
+                        <rect key="frame" x="0.0" y="0.0" width="704" height="995"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RrV-HH-pBx">
@@ -670,7 +675,8 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="7Dk-24-pfd"/>
+        <segue reference="xur-1o-kdA"/>
+        <segue reference="JTj-DA-Y2K"/>
     </inferredMetricsTieBreakers>
     <resources>
         <systemColor name="labelColor">

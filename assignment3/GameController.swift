@@ -20,8 +20,11 @@ class GameController: UIViewController {
     var completeRound = 0
     
     var timeLeft = 0
+    var timer : Timer? = Timer()
     
-    var buttonList = 1
+    var buttonList : [[String : Int]] = []
+    
+    var prescribedButtonSet = false
     
     @IBOutlet var gameProgress: UILabel!
     
@@ -44,6 +47,8 @@ class GameController: UIViewController {
         createButtons()
         
         reposition()
+        
+        highlight()
     }
     
     
@@ -59,10 +64,11 @@ class GameController: UIViewController {
         initGameStore()
         
         if gameMode == true {
-            if round == -1 {
-                gameProgress.text = "1 of \(round) round"
+            if round != -1 {
+                gameProgress.text = "1 of \(self.round) round"
             } else {
-                
+                timeLeft = time
+                startCountDown()
             }
         } else {
             gameProgress.text = "Round 1"
@@ -102,7 +108,7 @@ class GameController: UIViewController {
         
         var numList = [Int]()
         
-        for i in 1...numOfButtons {
+        for _ in 1...numOfButtons {
             var random = Int.random(in: 0...4)
             while numList.contains(random) {
                 random = Int.random(in: 0...4)
@@ -121,7 +127,7 @@ class GameController: UIViewController {
         
         var numList = [Int]()
         
-        for i in 1...numOfButtons {
+        for _ in 1...numOfButtons {
             var random = Int.random(in: 0...4)
             while numList.contains(random) {
                 random = Int.random(in: 0...4)
@@ -149,6 +155,18 @@ class GameController: UIViewController {
 
                 self.view.addSubview(button)
             }
+            
+            let xPosition = getPositionX()
+            let yPosition = getPositionY()
+            
+            for index in 1...numOfButtons {
+                let button = self.view.viewWithTag(index) as? UIButton
+                
+                button?.frame = CGRect(x: xPosition[index-1], y: yPosition[index-1], width: buttonSize, height: buttonSize)
+                
+                button?.setTitle("\(index)", for: .normal)
+                button?.setBackgroundImage(nil, for: .normal)
+            }
         } else {
             
         }
@@ -163,12 +181,26 @@ class GameController: UIViewController {
             
             if isRandom == true {
                 button?.frame = CGRect(x: xPosition[index-1], y: yPosition[index-1], width: buttonSize, height: buttonSize)
-                
-                print("x: \(xPosition[index-1])")
-                print("y: \(yPosition[index-1])")
             }
             
             button?.setTitle("\(index)", for: .normal)
+            button?.setBackgroundImage(nil, for: .normal)
+        }
+    }
+    
+    func startCountDown() {
+        gameProgress.text = "\(timeLeft)s"
+        
+        timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(updateCounter), userInfo: nil, repeats: true)
+    }
+    
+    @objc func updateCounter() {
+        timeLeft -= 1
+        
+        if timeLeft >= 0 {
+            gameProgress.text = "\(timeLeft)s"
+        } else {
+            completeGame()
         }
     }
     
@@ -177,24 +209,47 @@ class GameController: UIViewController {
         
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "HH:mm:ss"
-        let time = dateFormatter.string(from: Date())
+        let timeClick = dateFormatter.string(from: Date())
         
         if sender.tag == btnNow {
+            sender.setBackgroundImage(UIImage.checkmark, for: .normal)
+            sender.setTitle("", for: .normal)
+            
+            buttonList.append([timeClick : btnNow])
+            uploadButtonList()
+            
             btnNow += 1
             
+            if btnNow > numOfButtons {
+                btnNow = 1
+                completeRound += 1
+                
+                if gameMode ==  false {
+                    completed = true
+                }
             
-            uploadButtonList()
+                uploadRound()
+                
+                if gameMode == true {
+                    if self.round != -1 {
+                        if completeRound == self.round {
+                            completeGame()
+                        } else {
+                            reposition()
+                            gameProgress.text = "\(completeRound + 1) of \(self.round) round"
+                        }
+                    } else {
+                        reposition()
+                    }
+                } else {
+                    gameProgress.text = "Round \(completeRound)"
+                    reposition()
+                }
+            }
+            highlight()
         } else {
-            
-            
+            buttonList.append([timeClick : sender.tag * 10])
             uploadButtonList()
-        }
-        
-        if btnNow > numOfButtons {
-            btnNow = 1
-            completeRound += 1
-            
-            reposition()
         }
     }
     
@@ -202,8 +257,13 @@ class GameController: UIViewController {
         let db = Firestore.firestore()
         let games = db.collection(DATABASE)
         
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "dd/MM/yyyy HH:mm:ss"
+        let currentTime = dateFormatter.string(from: Date())
+        
         games.document(id).updateData([
-            "repetition": completeRound
+            "repetition": completeRound,
+            "endTime": currentTime
         ]) { (err) in
             if let err = err {
                 print("Error updating repetition: \(err)")
@@ -217,8 +277,13 @@ class GameController: UIViewController {
         let db = Firestore.firestore()
         let games = db.collection(DATABASE)
         
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "dd/MM/yyyy HH:mm:ss"
+        let currentTime = dateFormatter.string(from: Date())
+        
         games.document(id).updateData([
-            "buttonList": buttonList
+            "buttonList": buttonList,
+            "endTime": currentTime
         ]) { (err) in
             if let err = err {
                 print("Error updating repetition: \(err)")
@@ -232,23 +297,55 @@ class GameController: UIViewController {
         let db = Firestore.firestore()
         let games = db.collection(DATABASE)
         
+        print("complete hey")
         
+        completed = true
+        
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "dd/MM/yyyy HH:mm:ss"
+        let currentTime = dateFormatter.string(from: Date())
+        
+        games.document(id).updateData([
+            "buttonList": buttonList,
+            "endTime": currentTime,
+            "completed": completed
+        ]) { (err) in
+            if let err = err {
+                print("Error updating repetition: \(err)")
+            } else {
+                print("Document updated!")
+            }
+        }
+        
+        performSegue(withIdentifier: "gameFinishSegue", sender: nil)
     }
     
     func highlight() {
-        
+        if hasIndication == true {
+            let button = self.view.viewWithTag(btnNow) as? UIButton
+            
+            button?.backgroundColor = .orange
+            if button?.tag != 1 {
+                let prevButton = self.view.viewWithTag(btnNow - 1) as? UIButton
+                prevButton?.backgroundColor = .yellow
+            } else {
+                let prevButton = self.view.viewWithTag(self.numOfButtons) as? UIButton
+                prevButton?.backgroundColor = .yellow
+            }
+        }
     }
     
     func goToMenu() {
-        
+        performSegue(withIdentifier: "goToMenuFromGame", sender: nil)
     }
     
     @IBAction func pauseGame(_ sender: Any) {
-        
+        timer?.invalidate()
+        timer = nil
     }
     
     @IBAction func unwindToGamePage(sender: UIStoryboardSegue) {
-        
+        startCountDown()
     }
     
     
