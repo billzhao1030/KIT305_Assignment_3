@@ -27,6 +27,7 @@ class GameController: UIViewController {
     var prescribedButtonSet = false
     
     @IBOutlet var gameProgress: UILabel!
+    @IBOutlet var gameRule: UITextView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -60,6 +61,8 @@ class GameController: UIViewController {
         print("Before: \(buttonSize)")
         buttonSize = buttonSize * 30 + 70
         print("After: \(buttonSize)")
+        
+        gameRule.text = "Tap the button in number order (from 1)"
 
         initGameStore()
         
@@ -133,7 +136,7 @@ class GameController: UIViewController {
                 random = Int.random(in: 0...4)
             }
             numList.append(random)
-            randomY = random * 165 + 180
+            randomY = random * 165 + 250
             yList.append(randomY)
         }
         return yList
@@ -200,6 +203,8 @@ class GameController: UIViewController {
         if timeLeft >= 0 {
             gameProgress.text = "\(timeLeft)s"
         } else {
+            timer?.invalidate()
+            timer = nil
             completeGame()
         }
     }
@@ -268,7 +273,7 @@ class GameController: UIViewController {
             if let err = err {
                 print("Error updating repetition: \(err)")
             } else {
-                print("Document updated!")
+                print("Document updated 2!")
             }
         }
     }
@@ -288,7 +293,7 @@ class GameController: UIViewController {
             if let err = err {
                 print("Error updating repetition: \(err)")
             } else {
-                print("Document updated!")
+                print("Document updated 1!")
             }
         }
     }
@@ -313,7 +318,7 @@ class GameController: UIViewController {
             if let err = err {
                 print("Error updating repetition: \(err)")
             } else {
-                print("Document updated!")
+                print("Document updated! hh")
             }
         }
         
@@ -342,15 +347,28 @@ class GameController: UIViewController {
     @IBAction func pauseGame(_ sender: Any) {
         timer?.invalidate()
         timer = nil
+        
+        uploadButtonList()
     }
     
     @IBAction func unwindToGamePage(sender: UIStoryboardSegue) {
-        startCountDown()
+        if gameType == true {
+            if gameMode == true {
+                if self.time != -1 {
+                    startCountDown()
+                }
+            }
+        }
     }
     
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        
+        if segue.identifier == "pauseSegue" {
+            if let pause = segue.destination as? PauseController {
+                pause.completed = self.completed
+                pause.id = self.id
+            }
+        }
     }
     
     func debugResult() {

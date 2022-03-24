@@ -26,9 +26,6 @@ class ViewController: UIViewController {
         
         usernameTextField.text = defalutFile.string(forKey: "username")
         
-        //let db = Firestore.firestore()
-        //let games = db.collection("games")
-        
         setSummaryText()
         
     }

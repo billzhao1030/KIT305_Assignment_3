@@ -1,8 +1,7 @@
 
 import UIKit
 
-class HistoryController: UIViewController {
-
+class HistoryController: UIViewController{
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -15,6 +14,8 @@ class HistoryController: UIViewController {
             applicationActivities: [])
         present(shareView, animated: true, completion: nil)
     }
+    
+    
     
     /*
     // MARK: - Navigation

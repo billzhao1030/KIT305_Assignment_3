@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1C5553C927EC2B6800400E5A /* PauseController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C5553C827EC2B6800400E5A /* PauseController.swift */; };
+		1C5553CB27EC32F100400E5A /* GameFinishController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C5553CA27EC32F100400E5A /* GameFinishController.swift */; };
 		1C9B512C27DF1E5000BF3E2C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C9B512B27DF1E5000BF3E2C /* AppDelegate.swift */; };
 		1C9B512E27DF1E5000BF3E2C /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C9B512D27DF1E5000BF3E2C /* SceneDelegate.swift */; };
 		1C9B513027DF1E5000BF3E2C /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C9B512F27DF1E5000BF3E2C /* ViewController.swift */; };
@@ -23,6 +25,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		1C5553C827EC2B6800400E5A /* PauseController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PauseController.swift; sourceTree = "<group>"; };
+		1C5553CA27EC32F100400E5A /* GameFinishController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameFinishController.swift; sourceTree = "<group>"; };
 		1C9B512827DF1E5000BF3E2C /* assignment3.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = assignment3.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1C9B512B27DF1E5000BF3E2C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1C9B512D27DF1E5000BF3E2C /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -83,6 +87,8 @@
 				1C9B512F27DF1E5000BF3E2C /* ViewController.swift */,
 				1C9B514127E93DAF00BF3E2C /* Game.swift */,
 				1C9B513127DF1E5000BF3E2C /* Main.storyboard */,
+				1C5553CA27EC32F100400E5A /* GameFinishController.swift */,
+				1C5553C827EC2B6800400E5A /* PauseController.swift */,
 				1C9B514927E95D6400BF3E2C /* DesignedCustomize.swift */,
 				1C9B514727E954E700BF3E2C /* GameController.swift */,
 				1C9B513427DF1E5200BF3E2C /* Assets.xcassets */,
@@ -225,12 +231,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1C5553CB27EC32F100400E5A /* GameFinishController.swift in Sources */,
 				1C9B514A27E95D6400BF3E2C /* DesignedCustomize.swift in Sources */,
 				1C9B514427E9513C00BF3E2C /* PrescribedCustomize.swift in Sources */,
 				1C9B513027DF1E5000BF3E2C /* ViewController.swift in Sources */,
 				1C9B512C27DF1E5000BF3E2C /* AppDelegate.swift in Sources */,
 				1C9B512E27DF1E5000BF3E2C /* SceneDelegate.swift in Sources */,
 				1C9B514627E9517600BF3E2C /* HistoryController.swift in Sources */,
+				1C5553C927EC2B6800400E5A /* PauseController.swift in Sources */,
 				1C9B514227E93DAF00BF3E2C /* Game.swift in Sources */,
 				1C9B514827E954E700BF3E2C /* GameController.swift in Sources */,
 			);

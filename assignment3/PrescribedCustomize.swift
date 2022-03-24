@@ -202,6 +202,4 @@ class PrescribedCustomize: UIViewController, UIPickerViewDelegate, UIPickerViewD
             }
         }
     }
-    
-
 }
