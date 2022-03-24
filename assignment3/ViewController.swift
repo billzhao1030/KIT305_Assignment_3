@@ -54,14 +54,46 @@ class ViewController: UIViewController {
     // set the total repetition round text
     func setSummaryText() {
         var summary = "Loading..."
+        summaryText.text = summary
+        
         var prescribedTotal = 0
         var designedTotal = 0
         
         let db = Firestore.firestore()
         let games = db.collection(DATABASE)
         
-        
-        summaryText.text = summary
+        games.getDocuments() { (result, err) in
+            if let err = err {
+                print("Error getting documents: \(err)")
+            } else {
+                for document in result!.documents {
+                    let conversionResult = Result {
+                        try document.data(as: Game.self)
+                    }
+
+                    switch conversionResult
+                    {
+                        case .success(let convertedDoc):
+                            if let game = convertedDoc {
+                                if game.gameType == true {
+                                    prescribedTotal += game.repetition
+                                    print("\(prescribedTotal)")
+                                } else {
+                                    designedTotal += game.repetition
+                                }
+                                
+                                summary = "You have completed\n \(prescribedTotal) repetitions in Number in order\n \(designedTotal) repetitions in Matching Numbers"
+                                
+                                self.summaryText.text = summary
+                            } else {
+                                print("Document does not exist")
+                            }
+                        case .failure(let error):
+                            print("Error decoding game: \(error)")
+                    }
+                }
+            }
+        }
     }
     
     @IBAction func unwindToMenuPage(sender: UIStoryboardSegue) {

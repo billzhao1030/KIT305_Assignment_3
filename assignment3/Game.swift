@@ -1,8 +1,8 @@
 
 import Foundation
 
-class Game {
-    var id: String = ""
+public struct Game : Codable {
+    var id: String?
     
     var gameType: Bool = false
     var gameMode: Bool = true
@@ -13,32 +13,5 @@ class Game {
     var completed: Bool = true
     var repetition: Int = 0
     
-    //var buttonList: Array
-    
-    var totalClick: Int = 0
-    var rightClick: Int = 0
-    
-    func toSummary() {
-        
-    }
+    var buttonList: [[String: Int]]?
 }
-
-//        games.getDocuments() { (result, err) in
-//            // check for server error
-//            if let err = err {
-//                print("Error getting documents: \(err)")
-//            } else {
-//                // loop throgh the results
-//                for document in result!.documents {
-//                    print(document.get("repetition"))
-//
-//                }
-//            }
-//        }
-        
-//        var arrayOfMap = [[String: Int]]()
-//        var map = ["jj":1]
-//        arrayOfMap.append(map)
-//
-//
-//        dump(arrayOfMap)
