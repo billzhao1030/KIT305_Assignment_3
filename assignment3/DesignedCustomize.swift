@@ -18,6 +18,8 @@ class DesignedCustomize: UIViewController, UIPickerViewDelegate, UIPickerViewDat
         self.buttonNumPicker.delegate = self
         self.buttonNumPicker.dataSource = self
         
+        debugResult()
+        
         buttonNumPickerData = buttonNumList
         
         buttonNumPicker.selectRow(1, inComponent: 0, animated: false)
@@ -41,15 +43,18 @@ class DesignedCustomize: UIViewController, UIPickerViewDelegate, UIPickerViewDat
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         numOfButtons = row + 1
+        debugResult()
     }
     
     @IBAction func setRandom(_ sender: Any) {
         isRandom = isRandomSwitch.isOn
+        debugResult()
     }
     
     
     func debugResult() {
         print("isRandom: \(isRandom)")
+        print("num: \(numOfButtons)")
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

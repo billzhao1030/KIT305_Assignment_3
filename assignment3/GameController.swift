@@ -34,9 +34,8 @@ class GameController: UIViewController {
 
         debugResult()
         
-        
+        presetGame()
         if gameType == true {
-            presetPrescribed()
             startPrescribedGame()
         } else {
             startDesignedGame()
@@ -54,28 +53,31 @@ class GameController: UIViewController {
     
     
     func startDesignedGame() {
-        initGameStore()
+        createButtons()
     }
     
-    func presetPrescribed() {
-        print("Before: \(buttonSize)")
-        buttonSize = buttonSize * 30 + 70
-        print("After: \(buttonSize)")
-        
-        gameRule.text = "Tap the button in number order (from 1)"
-
-        initGameStore()
-        
-        if gameMode == true {
-            if round != -1 {
-                gameProgress.text = "1 of \(self.round) round"
+    func presetGame() {
+        if gameType == true {
+            buttonSize = buttonSize * 30 + 70
+            
+            gameRule.text = "Tap the button in number order (from 1)"
+            
+            if gameMode == true {
+                if round != -1 {
+                    gameProgress.text = "1 of \(self.round) round"
+                } else {
+                    timeLeft = time
+                    startCountDown()
+                }
             } else {
-                timeLeft = time
-                startCountDown()
+                gameProgress.text = "Round 1"
             }
         } else {
+            gameRule.text = "Long press and drag the number to pair them up"
             gameProgress.text = "Round 1"
         }
+        
+        initGameStore()
     }
     
     func initGameStore() {
@@ -89,6 +91,7 @@ class GameController: UIViewController {
         id = dateFormatter.string(from: Date())
         
         games.document(id).setData([
+            "id": id,
             "completed": completed,
             "startTime": currentTime,
             "endTime": currentTime,
@@ -111,14 +114,26 @@ class GameController: UIViewController {
         
         var numList = [Int]()
         
-        for _ in 1...numOfButtons {
-            var random = Int.random(in: 0...4)
-            while numList.contains(random) {
-                random = Int.random(in: 0...4)
+        if gameType == true {
+            for _ in 1...numOfButtons {
+                var random = Int.random(in: 0...4)
+                while numList.contains(random) {
+                    random = Int.random(in: 0...4)
+                }
+                numList.append(random)
+                randomX = random * 165
+                xList.append(randomX)
             }
-            numList.append(random)
-            randomX = random * 165
-            xList.append(randomX)
+        } else {
+            for _ in 1...(numOfButtons*2) {
+                var random = Int.random(in: 0...5)
+                while numList.contains(random) {
+                    random = Int.random(in: 0...5)
+                }
+                numList.append(random)
+                randomX = random * 125
+                xList.append(randomX)
+            }
         }
         
         return xList
@@ -130,15 +145,28 @@ class GameController: UIViewController {
         
         var numList = [Int]()
         
-        for _ in 1...numOfButtons {
-            var random = Int.random(in: 0...4)
-            while numList.contains(random) {
-                random = Int.random(in: 0...4)
+        if gameType == true {
+            for _ in 1...numOfButtons {
+                var random = Int.random(in: 0...4)
+                while numList.contains(random) {
+                    random = Int.random(in: 0...4)
+                }
+                numList.append(random)
+                randomY = random * 165 + 250
+                yList.append(randomY)
             }
-            numList.append(random)
-            randomY = random * 165 + 250
-            yList.append(randomY)
+        } else {
+            for _ in 1...(numOfButtons*2) {
+                var random = Int.random(in: 0...5)
+                while numList.contains(random) {
+                    random = Int.random(in: 0...5)
+                }
+                numList.append(random)
+                randomY = random * 125 + 260
+                yList.append(randomY)
+            }
         }
+        
         return yList
     }
     
@@ -171,7 +199,32 @@ class GameController: UIViewController {
                 button?.setBackgroundImage(nil, for: .normal)
             }
         } else {
+            for index in 1...(numOfButtons * 2) {
+                let button = UIButton(type: .system)
+                button.frame = CGRect(x: 200, y: 200, width: 120, height: 120)
+                button.backgroundColor = .yellow
+                button.layer.cornerRadius = 60
+                button.setTitle("\(index)", for: .normal)
+                button.setTitleColor(.black, for: .normal)
+                button.titleLabel?.font = .systemFont(ofSize: 32, weight: .bold)
+//                button.addTarget(self, action: #selector(prescribedButtonAction), for: .touchUpInside)
+                button.tag = (index + 1) / 2 * 10 + 2 - index % 2
+                print("id: \(button.tag)")
+
+                self.view.addSubview(button)
+            }
             
+            let xPosition = getPositionX()
+            let yPosition = getPositionY()
+            
+            for index in 1...(numOfButtons * 2) {
+                let button = self.view.viewWithTag((index + 1) / 2 * 10 + 2 - index % 2) as? UIButton
+                
+                button?.frame = CGRect(x: xPosition[index-1], y: yPosition[index-1], width: 120, height: 120)
+                
+                button?.setTitle("\((index+1)/2)", for: .normal)
+                button?.setBackgroundImage(nil, for: .normal)
+            }
         }
     }
     
@@ -192,7 +245,7 @@ class GameController: UIViewController {
     }
     
     func startCountDown() {
-        gameProgress.text = "\(timeLeft)s"
+        gameProgress.text = "\(timeLeft)s  Round \(self.completeRound + 1)"
         
         timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(updateCounter), userInfo: nil, repeats: true)
     }
@@ -201,7 +254,7 @@ class GameController: UIViewController {
         timeLeft -= 1
         
         if timeLeft >= 0 {
-            gameProgress.text = "\(timeLeft)s"
+            gameProgress.text = "\(timeLeft)s  Round \(self.completeRound + 1)"
         } else {
             timer?.invalidate()
             timer = nil
@@ -245,6 +298,7 @@ class GameController: UIViewController {
                         }
                     } else {
                         reposition()
+                        gameProgress.text = "\(timeLeft)s  Round \(self.completeRound + 1)"
                     }
                 } else {
                     gameProgress.text = "Round \(completeRound)"
