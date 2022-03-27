@@ -1,17 +1,21 @@
 
 import UIKit
+import Firebase
+import FirebaseFirestoreSwift
 
 class HistoryDetailController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
     @IBOutlet var rightClick: UILabel!
     @IBOutlet var totalClick: UILabel!
     
+    @IBOutlet var buttonListTitle: UILabel!
     @IBOutlet var buttonListTable: UITableView!
     @IBOutlet var image: UIImageView!
     
-    
     var game : Game?
     var gameIndex : Int?
+    var gameID = ""
+    var gameUndo = Game()
     
     var buttonList : [[String:Int]] = []
     
@@ -40,8 +44,8 @@ class HistoryDetailController: UIViewController, UITableViewDelegate, UITableVie
 
         if let clickCell = cell as? ButtonClickCell {
             
-            var time = buttonClick.keys
-            var value = buttonClick.values
+            let time = buttonClick.keys
+            let value = buttonClick.values
             
             
             if (value.contains(10) || value.contains(20) || value.contains(30) || value.contains(40) || value.contains(50)) == true {
@@ -50,8 +54,8 @@ class HistoryDetailController: UIViewController, UITableViewDelegate, UITableVie
                 clickCell.buttonClick.textColor = UIColor.black
             }
             
-            var timeStr = "\(time)"[2..<10]
-            var clickStr = "\(value)"[1..<2]
+            let timeStr = "\(time)"[2..<10]
+            let clickStr = "\(value)"[1..<2]
             
             clickCell.buttonClick.text = "\(timeStr) : \(clickStr)"
         }
@@ -60,37 +64,84 @@ class HistoryDetailController: UIViewController, UITableViewDelegate, UITableVie
     }
     
     func calculateClick() {
-        if let displayedGame = game {
-            buttonList = displayedGame.buttonList ?? []
-            var right = 0
-            var total = 0
-            for click in buttonList {
-                var value = click.values
-                total += 1
-                if (value.contains(10) || value.contains(20) || value.contains(30) || value.contains(40) || value.contains(50)) == false {
-                    right += 1
-                }
-            }
-            
-            rightClick.text = "The right click : \(right)"
-            totalClick.text = "The total click : \(total)"
-            
-            self.buttonListTable.reloadData()
-        }
+        buttonList = game?.buttonList ?? []
+    
+        let right: Int = (game?.rightClick)!
+        let total: Int = (game?.totalClick)!
+        rightClick.text = "The right click : \(right)"
+        totalClick.text = "The total click : \(total)"
+        
+        self.buttonListTable.reloadData()
     }
     
     func showElements(_ isShow: Bool) {
         rightClick.isHidden = isShow
         totalClick.isHidden = isShow
-        image.isHidden = isShow
+        buttonListTitle.isHidden = isShow
     }
     
     
     @IBAction func shareThis(_ sender: Any) {
+        let shareText = "\((game?.toShare())!)"
+        
+        print("Share...")
+        print(shareText)
     }
     
     
     @IBAction func deleteThis(_ sender: Any) {
+        // create an alert view
+        let alert = UIAlertController(
+            title: "Caution!",
+            message: "Confirm to delete this exercise?",
+            preferredStyle: UIAlertController.Style.alert)
+        
+        // add an action (button)
+        alert.addAction(UIAlertAction(
+            title: "Yes",
+            style: UIAlertAction.Style.default,
+            handler:  {(action:UIAlertAction!)in
+                let db = Firestore.firestore()
+                let games = db.collection(DATABASE)
+                
+                let idDelete = self.game?.id
+                
+                print("\(self.game?.id)")
+                
+                games.document(idDelete!).delete() { err in
+                    if let err = err {
+                        print("Error removing document: \(err)")
+                    } else {
+                        print("Document successfully removed!")
+                    }
+                }
+                
+                self.gameID = idDelete ?? ""
+                
+                self.performSegue(withIdentifier: "deleteSegue", sender: nil)
+            }))
+        
+        alert.addAction(UIAlertAction(
+            title: "No",
+            style: UIAlertAction.Style.default,
+            handler: nil))
+
+        // show the alert
+        self.present(alert, animated: true, completion: nil)
+    }
+    
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        super.prepare(for: segue, sender: sender)
+        
+        if segue.identifier == "deleteSegue" {
+            if let gameHistory = segue.destination as? HistoryController {
+                gameHistory.undoID = game?.id ?? ""
+                gameHistory.undoIndex = gameIndex ?? 0
+                
+                gameHistory.undoGame = game
+            }
+        }
     }
 }
 

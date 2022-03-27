@@ -13,9 +13,11 @@ class HistoryController: UIViewController, UITableViewDelegate, UITableViewDataS
     @IBOutlet var historySearch: UIButton!
     @IBOutlet var historySeeAll: UIButton!
     
-    @IBOutlet var undoText: UILabel!
-    @IBOutlet var undoYes: UIButton!
-    @IBOutlet var undoNo: UIButton!
+    
+    @IBOutlet var searchBoxField: UITextField!
+    var undoGame: Game?
+    var undoID = ""
+    var undoIndex = 1
     
     var id = ""
     var historyType = true
@@ -27,8 +29,6 @@ class HistoryController: UIViewController, UITableViewDelegate, UITableViewDataS
 
         historyTable.delegate = self
         historyTable.dataSource = self
-        
-        hideUndo(true)
         
         historyGamePrescribed.tintColor = UIColor.blue
         historyGameDesigned.tintColor = UIColor.gray
@@ -73,6 +73,19 @@ class HistoryController: UIViewController, UITableViewDelegate, UITableViewDataS
                             if var game = convertedDoc {
                                 game.id = document.documentID
                                 if game.gameType == self.historyType {
+                                    var right = 0
+                                    var total = 0
+                                    for click in game.buttonList! {
+                                        let value = click.values
+                                        total += 1
+                                        if (value.contains(10) || value.contains(20) || value.contains(30) || value.contains(40) || value.contains(50)) == false {
+                                            right += 1
+                                        }
+                                    }
+                                    
+                                    game.totalClick = total
+                                    game.rightClick = right
+                                    
                                     print("Game: \(game)")
                                     self.gameList.append(game)
                                 }
@@ -87,8 +100,6 @@ class HistoryController: UIViewController, UITableViewDelegate, UITableViewDataS
                 self.historyTable.reloadData()
             }
         }
-        
-        
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -121,21 +132,84 @@ class HistoryController: UIViewController, UITableViewDelegate, UITableViewDataS
     
     
     @IBAction func shareAllHistory(_ sender: UIButton) {
-        print("share")
-        let text = "This is the text....."
-        let textShare = [ text ]
-        let activityViewController = UIActivityViewController(activityItems: textShare , applicationActivities: nil)
-        activityViewController.popoverPresentationController?.sourceView = self.view
-        self.present(activityViewController, animated: true, completion: nil)
+        var shareText = ""
+        for game in gameList {
+            shareText += "\((game.toShare())) \n"
+        }
+        
+        print(shareText)
     }
     
-    func hideUndo(_ isHide: Bool) {
-        undoText.isHidden = isHide
-        undoYes.isHidden = isHide
-        undoNo.isHidden = isHide
+    @IBAction func SearchByTime(_ sender: Any) {
+        let db = Firestore.firestore()
+        let gamesCollection = db.collection(DATABASE)
+        
+        gamesCollection.getDocuments() { (result, err) in
+            if let err = err {
+                print("Error getting documents: \(err)")
+            } else {
+                let searchText: String = self.searchBoxField.text ?? ""
+                if searchText.trimmingCharacters(in: .whitespacesAndNewlines) == "" {
+                    print("nothing")
+                } else {
+                    self.gameList.removeAll()
+                    self.historyTable.reloadData()
+                    for document in result!.documents {
+                        let conversionResult = Result {
+                            try document.data(as: Game.self)
+                        }
+                        
+                        switch conversionResult {
+                            case .success(let convertedDoc):
+                                if var game = convertedDoc {
+                                    game.id = document.documentID
+                                    if game.gameType == self.historyType {
+                                        if ((game.id?.contains(searchText.trimmingCharacters(in: .whitespacesAndNewlines))) == true) {
+                                            var right = 0
+                                            var total = 0
+                                            for click in game.buttonList! {
+                                                var value = click.values
+                                                total += 1
+                                                if (value.contains(10) || value.contains(20) || value.contains(30) || value.contains(40) || value.contains(50)) == false {
+                                                    right += 1
+                                                }
+                                            }
+                                            
+                                            game.totalClick = total
+                                            game.rightClick = right
+                                            
+                                            print("Game: \(game)")
+                                            self.gameList.append(game)
+                                        }
+                                    }
+                                } else {
+                                    print("Document does not exist")
+                                }
+                            case .failure(let failure):
+                                print("Error decoding movie: \(failure)")
+                            }
+                    }
+                    
+                    self.historyTable.reloadData()
+                    
+                    self.searchBoxField.text = ""
+                }
+            }
+        }
     }
     
+    @IBAction func SeeAll(_ sender: Any) {
+        getGamesFromDB()
+    }
+ 
     @IBAction func unwindToGameList(sender: UIStoryboardSegue) {
+        print("\(undoGame)")
+        print("\(undoIndex)")
+        print("\(undoID)")
+    
+        gameList.remove(at: undoIndex)
+        
+        self.historyTable.reloadData()
     }
 
     @IBAction func unwindToGameListWithCancel(sender: UIStoryboardSegue) {

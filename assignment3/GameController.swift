@@ -19,6 +19,9 @@ class GameController: UIViewController {
     var btnNow = 1
     var completeRound = 0
     
+    var isRound = true
+    var isFree = false
+    
     var timeLeft = 0
     var timer : Timer? = Timer()
     
@@ -38,6 +41,8 @@ class GameController: UIViewController {
         if gameType == true {
             startPrescribedGame()
         } else {
+            isFree = true
+            isRound = false
             startDesignedGame()
         }
     }
@@ -53,6 +58,7 @@ class GameController: UIViewController {
     
     
     func startDesignedGame() {
+        completed = true
         createButtons()
     }
     
@@ -63,13 +69,19 @@ class GameController: UIViewController {
             gameRule.text = "Tap the button in number order (from 1)"
             
             if gameMode == true {
+                isFree = false
+
                 if round != -1 {
+                    isRound = true
                     gameProgress.text = "1 of \(self.round) round"
                 } else {
+                    isRound = false
                     timeLeft = time
                     startCountDown()
                 }
             } else {
+                isFree = true
+                isRound = false
                 gameProgress.text = "Round 1"
             }
         } else {
@@ -207,7 +219,7 @@ class GameController: UIViewController {
                 button.setTitle("\(index)", for: .normal)
                 button.setTitleColor(.black, for: .normal)
                 button.titleLabel?.font = .systemFont(ofSize: 32, weight: .bold)
-//                button.addTarget(self, action: #selector(prescribedButtonAction), for: .touchUpInside)
+
                 button.tag = (index + 1) / 2 * 10 + 2 - index % 2
                 print("id: \(button.tag)")
 
@@ -421,6 +433,12 @@ class GameController: UIViewController {
             if let pause = segue.destination as? PauseController {
                 pause.completed = self.completed
                 pause.id = self.id
+            }
+        } else if segue.identifier == "gameFinishSegue" {
+            if let finish = segue.destination as? GameFinishController {
+                finish.id = self.id
+                finish.gameType = self.gameType
+                finish.isRound = self.isRound
             }
         }
     }

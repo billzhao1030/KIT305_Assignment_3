@@ -18,10 +18,13 @@ class PauseController: UIViewController {
         super.viewDidLoad()
         
         if completed == true {
-            completeButton.setTitle("Finish Exercise", for: .normal)
+            completeButton.titleLabel?.text = "Finish Exercise"
+            //completeButton.setTitle("Finish Exercise", for: .normal)
         } else {
-            completeButton.setTitle("Go back to Menu", for: .normal)
+            completeButton.titleLabel?.text = "Go back to Menu"
+            //completeButton.setTitle("Go back to Menu", for: .normal)
         }
+        
         completeButton.titleLabel?.font = UIFont.boldSystemFont(ofSize: 44)
     }
     
