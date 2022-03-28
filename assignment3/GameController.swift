@@ -29,6 +29,9 @@ class GameController: UIViewController {
     
     var prescribedButtonSet = false
     
+    var isPair = false
+    var successPair: Double = 0
+    
     @IBOutlet var gameProgress: UILabel!
     @IBOutlet var gameRule: UITextView!
     
@@ -236,7 +239,52 @@ class GameController: UIViewController {
                 
                 button?.setTitle("\((index+1)/2)", for: .normal)
                 button?.setBackgroundImage(nil, for: .normal)
+                
+                button?.isUserInteractionEnabled = true
+                button?.isHidden = false
+                
+                button?.addGestureRecognizer(UIPanGestureRecognizer(target: self, action: #selector(handler)))
             }
+        }
+    }
+    
+    @objc func handler(gesture: UIPanGestureRecognizer){
+        let location = gesture.location(in: self.view)
+        let draggedView = gesture.view
+        draggedView?.center = location
+        
+        var tag = (draggedView?.tag)!
+        var pair = 0
+        if tag % 10 == 1 {
+            pair = tag + 1
+        } else {
+            pair = tag - 1
+        }
+      
+        var buttonPair = self.view.viewWithTag(pair) as? UIButton
+        buttonPair?.removeGestureRecognizer(gesture)
+        
+        if (buttonPair?.frame)!.contains(location) {
+            isPair = true
+            draggedView?.isHidden = true
+            buttonPair?.isHidden = true
+            
+            draggedView?.removeGestureRecognizer(gesture)
+            
+            successPair += 0.5
+            print(successPair)
+            isPair = false
+            if Int(successPair) == numOfButtons {
+                completeRound += 1
+                successPair = 0
+                reposition()
+
+                uploadRound()
+                
+                gameProgress.text = "Round \(completeRound + 1)"
+            }
+        } else {
+            isPair = false
         }
     }
     
@@ -244,16 +292,35 @@ class GameController: UIViewController {
         let xPosition = getPositionX()
         let yPosition = getPositionY()
         
-        for index in 1...numOfButtons {
-            let button = self.view.viewWithTag(index) as? UIButton
-            
-            if isRandom == true {
-                button?.frame = CGRect(x: xPosition[index-1], y: yPosition[index-1], width: buttonSize, height: buttonSize)
+        if gameType == true {
+            for index in 1...numOfButtons {
+                let button = self.view.viewWithTag(index) as? UIButton
+                
+                if isRandom == true {
+                    button?.frame = CGRect(x: xPosition[index-1], y: yPosition[index-1], width: buttonSize, height: buttonSize)
+                }
+                
+                button?.setTitle("\(index)", for: .normal)
+                button?.setBackgroundImage(nil, for: .normal)
             }
-            
-            button?.setTitle("\(index)", for: .normal)
-            button?.setBackgroundImage(nil, for: .normal)
+        } else {
+            for index in 1...(numOfButtons * 2) {
+                let button = self.view.viewWithTag((index + 1) / 2 * 10 + 2 - index % 2) as? UIButton
+                if isRandom == true {
+                    button?.frame = CGRect(x: xPosition[index-1], y: yPosition[index-1], width: 120, height: 120)
+                }
+                
+                button?.setTitle("\((index+1)/2)", for: .normal)
+                button?.setBackgroundImage(nil, for: .normal)
+                
+                button?.isUserInteractionEnabled = true
+                button?.isHidden = false
+                
+                button?.addGestureRecognizer(UIPanGestureRecognizer(target: self, action: #selector(handler)))
+            }
         }
+        
+        
     }
     
     func startCountDown() {
@@ -313,7 +380,7 @@ class GameController: UIViewController {
                         gameProgress.text = "\(timeLeft)s  Round \(self.completeRound + 1)"
                     }
                 } else {
-                    gameProgress.text = "Round \(completeRound)"
+                    gameProgress.text = "Round \(completeRound + 1)"
                     reposition()
                 }
             }
