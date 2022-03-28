@@ -547,6 +547,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="hyu-8i-lTk"/>
                     <connections>
+                        <outlet property="imageView" destination="YC0-Zs-tNB" id="jKr-Xk-u4B"/>
                         <outlet property="selectPicture" destination="gCU-Gs-7FY" id="zmf-rb-yxZ"/>
                         <outlet property="summaryText" destination="obK-ue-jQM" id="MKO-E1-GqI"/>
                         <outlet property="takePicture" destination="VJH-aj-v7x" id="8Jo-aa-zvT"/>
@@ -880,7 +881,7 @@
                     <connections>
                         <outlet property="buttonListTable" destination="Qcd-Yi-ffj" id="ivO-aR-zWX"/>
                         <outlet property="buttonListTitle" destination="E7x-5w-lc9" id="Vpf-hh-Qco"/>
-                        <outlet property="image" destination="ba5-yK-rMX" id="Jpu-Ab-6Eg"/>
+                        <outlet property="imageView" destination="ba5-yK-rMX" id="eyO-mV-M09"/>
                         <outlet property="rightClick" destination="Csd-Sy-e2m" id="Ss4-ee-Gdz"/>
                         <outlet property="totalClick" destination="JKe-Iy-VRk" id="zYn-1k-8LM"/>
                         <segue destination="OpJ-IK-lJA" kind="unwind" identifier="deleteSegue" unwindAction="unwindToGameListWithSender:" id="Tq0-Dx-R54"/>
@@ -1009,7 +1010,7 @@
     </scenes>
     <inferredMetricsTieBreakers>
         <segue reference="xur-1o-kdA"/>
-        <segue reference="7Dk-24-pfd"/>
+        <segue reference="JTj-DA-Y2K"/>
     </inferredMetricsTieBreakers>
     <resources>
         <systemColor name="labelColor">

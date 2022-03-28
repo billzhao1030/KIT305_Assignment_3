@@ -8,5 +8,6 @@ target 'assignment3' do
   # Pods for assignment3
   pod 'Firebase'
   pod 'FirebaseFirestoreSwift'
+  pod 'Firebase/Storage'
 
 end

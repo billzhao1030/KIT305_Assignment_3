@@ -124,7 +124,7 @@ class HistoryController: UIViewController, UITableViewDelegate, UITableViewDataS
             gameCell.historyStart.text = "Start: \(game.startTime)"
             gameCell.historyEnd.text = "End: \(game.endTime)"
             gameCell.historyRepetition.text = "Repetition: \(game.repetition)"
-            gameCell.historyComplete.text = "\(game.completed == true ? "Not" : "") completed"
+            gameCell.historyComplete.text = "\(game.completed == true ? "" : "Not") completed"
         }
         
         return cell

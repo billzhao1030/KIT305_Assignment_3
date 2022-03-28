@@ -2,6 +2,7 @@
 import UIKit
 import Firebase
 import FirebaseFirestoreSwift
+import FirebaseStorage
 
 class HistoryDetailController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
@@ -10,7 +11,8 @@ class HistoryDetailController: UIViewController, UITableViewDelegate, UITableVie
     
     @IBOutlet var buttonListTitle: UILabel!
     @IBOutlet var buttonListTable: UITableView!
-    @IBOutlet var image: UIImageView!
+    
+    @IBOutlet var imageView: UIImageView!
     
     var game : Game?
     var gameIndex : Int?
@@ -31,6 +33,8 @@ class HistoryDetailController: UIViewController, UITableViewDelegate, UITableVie
         } else {
             showElements(true)
         }
+        
+        showImage()
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -78,6 +82,25 @@ class HistoryDetailController: UIViewController, UITableViewDelegate, UITableVie
         rightClick.isHidden = isShow
         totalClick.isHidden = isShow
         buttonListTitle.isHidden = isShow
+    }
+    
+    // TODO
+    func showImage() {
+        let storageRef = Storage.storage().reference()
+        // Create a reference to the file you want to download
+        let islandRef = storageRef.child("imageIOS/\(game?.id).jpg")
+
+        // Download in memory with a maximum allowed size of 1MB (1 * 1024 * 1024 bytes)
+        islandRef.getData(maxSize: 1 * 1024 * 1024) { data, error in
+          if let error = error {
+            // Uh-oh, an error occurred!
+          } else {
+            // Data for "images/island.jpg" is returned
+            let image = UIImage(data: data!)
+
+            self.imageView.image = image
+          }
+        }
     }
     
     

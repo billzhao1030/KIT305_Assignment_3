@@ -35,6 +35,9 @@ class GameController: UIViewController {
     @IBOutlet var gameProgress: UILabel!
     @IBOutlet var gameRule: UITextView!
     
+    var xList: [Int] = []
+    var yList: [Int] = []
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -61,7 +64,6 @@ class GameController: UIViewController {
     
     
     func startDesignedGame() {
-        completed = true
         createButtons()
     }
     
@@ -231,6 +233,8 @@ class GameController: UIViewController {
             
             let xPosition = getPositionX()
             let yPosition = getPositionY()
+            xList = xPosition
+            yList = yPosition
             
             for index in 1...(numOfButtons * 2) {
                 let button = self.view.viewWithTag((index + 1) / 2 * 10 + 2 - index % 2) as? UIButton
@@ -276,6 +280,7 @@ class GameController: UIViewController {
             isPair = false
             if Int(successPair) == numOfButtons {
                 completeRound += 1
+                completed = true
                 successPair = 0
                 reposition()
 
@@ -308,6 +313,8 @@ class GameController: UIViewController {
                 let button = self.view.viewWithTag((index + 1) / 2 * 10 + 2 - index % 2) as? UIButton
                 if isRandom == true {
                     button?.frame = CGRect(x: xPosition[index-1], y: yPosition[index-1], width: 120, height: 120)
+                } else {
+                    button?.frame = CGRect(x: xList[index-1], y: yList[index-1], width: 120, height: 120)
                 }
                 
                 button?.setTitle("\((index+1)/2)", for: .normal)
@@ -315,6 +322,8 @@ class GameController: UIViewController {
                 
                 button?.isUserInteractionEnabled = true
                 button?.isHidden = false
+                
+                button?.backgroundColor = UIColor.yellow
                 
                 button?.addGestureRecognizer(UIPanGestureRecognizer(target: self, action: #selector(handler)))
             }
