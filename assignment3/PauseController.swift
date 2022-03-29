@@ -13,6 +13,8 @@ class PauseController: UIViewController {
     
     var completed = false
     var id = ""
+    var isRound = true
+    var isFree = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -35,6 +37,8 @@ class PauseController: UIViewController {
     
     @IBAction func finshOrMenu(_ sender: Any) {
         if completed == true {
+            
+            
             performSegue(withIdentifier: "completeGameFromPause", sender: nil)
         } else {
             print("hey not finish")
@@ -47,6 +51,9 @@ class PauseController: UIViewController {
         if segue.identifier == "completeGameFromPause" {
             if let finish = segue.destination as? GameFinishController {
                 finish.id = self.id
+                finish.isFree = self.isFree
+                finish.isRound = self.isRound
+                
             }
         }
     }

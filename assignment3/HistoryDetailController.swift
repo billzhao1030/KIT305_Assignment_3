@@ -15,6 +15,7 @@ class HistoryDetailController: UIViewController, UITableViewDelegate, UITableVie
     
     @IBOutlet var imageView: UIImageView!
     
+    @IBOutlet var nonComplete: UILabel!
     var game : Game?
     var gameIndex : Int?
     var gameID = ""
@@ -35,7 +36,15 @@ class HistoryDetailController: UIViewController, UITableViewDelegate, UITableVie
             showElements(true)
         }
         
-        showImage()
+        
+        if game?.completed == false {
+            nonComplete.isHidden = false
+        }
+        
+        
+        if game?.completed == true {
+            showImage()
+        }
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -85,7 +94,7 @@ class HistoryDetailController: UIViewController, UITableViewDelegate, UITableVie
         buttonListTitle.isHidden = isShow
     }
     
-    // TODO
+    
     func showImage() {
         let storageRef = Storage.storage().reference()
         

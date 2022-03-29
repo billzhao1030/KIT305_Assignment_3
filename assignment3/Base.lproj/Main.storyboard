@@ -500,14 +500,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="820" height="1180"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" text="Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et " textAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="obK-ue-jQM">
-                                <rect key="frame" x="211" y="87" width="398" height="275"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                <color key="textColor" systemColor="labelColor"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="19"/>
-                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                            </textView>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VJH-aj-v7x">
                                 <rect key="frame" x="254" y="418" width="313" height="62"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -542,6 +534,14 @@
                                 <rect key="frame" x="233" y="668" width="355" height="363"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" text="Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et " textAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="obK-ue-jQM">
+                                <rect key="frame" x="92" y="84" width="636" height="275"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <color key="textColor" systemColor="labelColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="30"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="Bja-cb-6G7"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -874,6 +874,13 @@
                                     <action selector="deleteThis:" destination="6l1-Zy-1Zv" eventType="touchUpInside" id="r7q-jz-zJA"/>
                                 </connections>
                             </button>
+                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="No image! Since not completed" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4Ua-i7-wYd">
+                                <rect key="frame" x="20" y="272" width="780" height="53"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="44"/>
+                                <color key="textColor" systemColor="systemRedColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="ikW-6a-4dS"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -883,6 +890,7 @@
                         <outlet property="buttonListTable" destination="Qcd-Yi-ffj" id="ivO-aR-zWX"/>
                         <outlet property="buttonListTitle" destination="E7x-5w-lc9" id="Vpf-hh-Qco"/>
                         <outlet property="imageView" destination="ba5-yK-rMX" id="eyO-mV-M09"/>
+                        <outlet property="nonComplete" destination="4Ua-i7-wYd" id="88X-RJ-EuP"/>
                         <outlet property="rightClick" destination="Csd-Sy-e2m" id="Ss4-ee-Gdz"/>
                         <outlet property="totalClick" destination="JKe-Iy-VRk" id="zYn-1k-8LM"/>
                         <segue destination="OpJ-IK-lJA" kind="unwind" identifier="deleteSegue" unwindAction="unwindToGameListWithSender:" id="Tq0-Dx-R54"/>
@@ -1019,6 +1027,9 @@
         </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemRedColor">
+            <color red="1" green="0.23137254901960785" blue="0.18823529411764706" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemYellowColor">
             <color red="1" green="0.80000000000000004" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

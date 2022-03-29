@@ -44,16 +44,16 @@ public struct Game : Codable {
         
         var extra = ""
         if isFree == true {
-            extra += "From \(startTime)\nTo \(endTime)\n With \(repetition) round(s) in total"
+            extra += "From: \(startTime)\nTo: \(endTime)\n With \(repetition) round(s) in total"
         } else {
             if isRound == true {
-                extra += "From \(startTime)\nTo \(endTime)"
+                extra += "From: \(startTime)\nTo: \(endTime)"
             } else {
                 extra += "With \(repetition) round(s) in total"
             }
         }
         
-        return "Congratulations!\nYou have completed \(type) exercise\n" +
+        return "Congratulations!\nYou have completed\n \(type) exercise\n" +
                "\(extra)"
     }
 }

@@ -66,6 +66,12 @@ class ViewController: UIViewController {
             if let err = err {
                 print("Error getting documents: \(err)")
             } else {
+                if ((result?.isEmpty) == true) {
+                    summary = "You have completed\n 0 repetitions in Number in order\n 0 repetitions in Matching Numbers"
+                    
+                    self.summaryText.text = summary
+                }
+                
                 for document in result!.documents {
                     let conversionResult = Result {
                         try document.data(as: Game.self)
@@ -97,7 +103,7 @@ class ViewController: UIViewController {
     }
     
     @IBAction func unwindToMenuPage(sender: UIStoryboardSegue) {
-        
+        setSummaryText()
     }
 }
 

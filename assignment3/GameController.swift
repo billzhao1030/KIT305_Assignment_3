@@ -401,6 +401,15 @@ class GameController: UIViewController {
     }
     
     func uploadRound() {
+        completed = true
+        
+        if gameType == true {
+            if gameMode == true {
+                if isRound == false {
+                    completed = false
+                }
+            }
+        }
         let db = Firestore.firestore()
         let games = db.collection(DATABASE)
         
@@ -410,7 +419,8 @@ class GameController: UIViewController {
         
         games.document(id).updateData([
             "repetition": completeRound,
-            "endTime": currentTime
+            "endTime": currentTime,
+            "completed": completed
         ]) { (err) in
             if let err = err {
                 print("Error updating repetition: \(err)")
@@ -509,6 +519,8 @@ class GameController: UIViewController {
             if let pause = segue.destination as? PauseController {
                 pause.completed = self.completed
                 pause.id = self.id
+                pause.isFree = self.isFree
+                pause.isRound = self.isRound
             }
         } else if segue.identifier == "gameFinishSegue" {
             if let finish = segue.destination as? GameFinishController {

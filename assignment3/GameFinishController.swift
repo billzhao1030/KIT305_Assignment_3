@@ -31,8 +31,6 @@ class GameFinishController: UIViewController, UIImagePickerControllerDelegate, U
         super.viewDidLoad()
 
         getGame()
-        
-        setGameSummary()
     }
     
 
@@ -108,6 +106,9 @@ class GameFinishController: UIViewController, UIImagePickerControllerDelegate, U
     }
     
     func setGameSummary() {
+        print(isRound)
+        print(isFree)
+        
         summaryText.text = thisGame.toSummary(isRound, isFree)
     }
     
@@ -117,16 +118,29 @@ class GameFinishController: UIViewController, UIImagePickerControllerDelegate, U
         
         let doc = gamesCollection.document(id)
         
-//        doc.getDocument(as: Game.self) { result in
-//            switch result {
-//                case .success(let city):
-//                    // A `City` value was successfully initialized from the DocumentSnapshot.
-//                    print("City: \(city)")
-//                case .failure(let error):
-//                    // A `City` value could not be initialized from the DocumentSnapshot.
-//                    print("Error decoding city: \(error)")
-//                }
-//        }
+        doc.getDocument() { (result, err) in
+            if let err = err {
+                print("Error getting document")
+            } else {
+                let conversionResult = Result {
+                    try result?.data(as: Game.self)
+                }
+                
+                switch conversionResult {
+                case .success(let success):
+                    if var game = success {
+                        print("Gamehhh: \(game)")
+                        self.thisGame = game
+                        
+                        self.setGameSummary()
+                    } else {
+                        print("Document does not exist")
+                    }
+                case .failure(let failure):
+                    print("Error decoding game")
+                }
+            }
+        }
     }
     
     override func didReceiveMemoryWarning() {
