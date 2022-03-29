@@ -3,6 +3,7 @@ import UIKit
 import Firebase
 import FirebaseFirestoreSwift
 import FirebaseStorage
+import FirebaseUI
 
 class HistoryDetailController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
@@ -87,28 +88,25 @@ class HistoryDetailController: UIViewController, UITableViewDelegate, UITableVie
     // TODO
     func showImage() {
         let storageRef = Storage.storage().reference()
-        // Create a reference to the file you want to download
-        let islandRef = storageRef.child("imageIOS/\(game?.id).jpg")
-
-        // Download in memory with a maximum allowed size of 1MB (1 * 1024 * 1024 bytes)
-        islandRef.getData(maxSize: 1 * 1024 * 1024) { data, error in
-          if let error = error {
-            // Uh-oh, an error occurred!
-          } else {
-            // Data for "images/island.jpg" is returned
-            let image = UIImage(data: data!)
-
-            self.imageView.image = image
-          }
-        }
+        
+        let exercise = (game?.id)!
+        print("imageIOS/\(exercise).jpg")
+        
+        let ref = storageRef.child("imageIOS/\(exercise).jpg")
+        
+        imageView.sd_setImage(with: ref)
     }
     
     
-    @IBAction func shareThis(_ sender: Any) {
+    @IBAction func shareThis(_ sender: UIButton) {
         let shareText = "\((game?.toShare())!)"
         
-        print("Share...")
-        print(shareText)
+        let activityVC = UIActivityViewController(activityItems: [shareText], applicationActivities: [])
+
+        activityVC.popoverPresentationController?.sourceView = sender
+        activityVC.popoverPresentationController?.sourceRect = sender.frame
+        
+        present(activityVC, animated: true, completion: nil)
     }
     
     

@@ -2,6 +2,7 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
     <device id="ipad10_9rounded" orientation="portrait" layout="fullscreen" appearance="light"/>
     <dependencies>
+        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -559,7 +560,7 @@
             </objects>
             <point key="canvasLocation" x="2100.731707317073" y="-12.203389830508476"/>
         </scene>
-        <!--Games-->
+        <!--History Controller-->
         <scene sceneID="NpM-3T-MwB">
             <objects>
                 <viewController id="ylo-Kr-xjf" customClass="HistoryController" customModule="assignment3" customModuleProvider="target" sceneMemberID="viewController">
@@ -770,7 +771,7 @@
                             <constraint firstItem="HH4-Fe-v0r" firstAttribute="top" secondItem="tIg-H8-M5F" secondAttribute="bottom" constant="30" id="wDY-bd-9jH"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Games" id="ZjW-V2-oJu"/>
+                    <navigationItem key="navigationItem" id="ZjW-V2-oJu"/>
                     <connections>
                         <outlet property="historyGameDesigned" destination="3TV-cc-Fz2" id="RWv-YI-SIH"/>
                         <outlet property="historyGamePrescribed" destination="V23-0e-mDU" id="Z19-wa-3vZ"/>

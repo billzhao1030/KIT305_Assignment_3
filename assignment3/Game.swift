@@ -35,7 +35,7 @@ public struct Game : Codable {
         "correct press of buttons: \(rightClick!), The button list: \(buttonClickStr)" : ""
         
         
-        return "Exercise: \(type) \(complete) completed, Start at: \(startTime), End at: \(endTime), " +
+        return "Exercise: \(type), \(complete) completed, Start at: \(startTime), End at: \(endTime), " +
                " \(repetition) round(s) in total, \(prescribed)"
     }
     

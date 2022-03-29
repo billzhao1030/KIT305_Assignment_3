@@ -25,6 +25,8 @@ class GameFinishController: UIViewController, UIImagePickerControllerDelegate, U
     
     var thisGame = Game()
     
+    private let storage = Storage.storage().reference()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -36,20 +38,7 @@ class GameFinishController: UIViewController, UIImagePickerControllerDelegate, U
 
     @IBAction func startCamera(_ sender: Any) {
         if hasPicture == false {
-            if UIImagePickerController.isSourceTypeAvailable(UIImagePickerController.SourceType.camera)
-            {
-                print("Camera available")
-                let imagePicker:UIImagePickerController = UIImagePickerController()
-                imagePicker.delegate = self
-                imagePicker.sourceType = UIImagePickerController.SourceType.camera
-                imagePicker.allowsEditing = true
-                
-                self.present(imagePicker, animated: true, completion: nil)
-            }
-            else
-            {
-                print("No camera available")
-            }
+            startCamera()
             hasPicture = true
             takePicture.titleLabel?.text = "Go to Menu"
         } else {
@@ -58,7 +47,6 @@ class GameFinishController: UIViewController, UIImagePickerControllerDelegate, U
     }
     @IBAction func startGallery(_ sender: Any) {
         if UIImagePickerController.isSourceTypeAvailable(.photoLibrary){
-            print("Gallery available")
             
             let imagePicker:UIImagePickerController = UIImagePickerController()
             imagePicker.delegate = self
@@ -69,25 +57,54 @@ class GameFinishController: UIViewController, UIImagePickerControllerDelegate, U
         }
     }
     
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
-        
-        if let image = info[UIImagePickerController.InfoKey.originalImage.rawValue] as? UIImage
-        {
-            imageView.image = image
-            hasPicture = true
-            takePicture.titleLabel?.text = "Go to Menu"
-            
-            let storage = Storage.storage().reference()
-            
-            storage.child("imageIOS/\(id).jpg")
-            
-            dismiss(animated: true, completion: nil)
+    func startCamera() {
+        if UIImagePickerController.isSourceTypeAvailable(.camera) {
+            let picker = UIImagePickerController()
+            picker.sourceType = .camera
+            picker.delegate = self
+            present(picker, animated: true)
+        } else {
+            print("No camera")
         }
+        
+        
     }
     
-    
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
-        dismiss(animated: true, completion: nil)
+        picker.dismiss(animated: true)
+        hasPicture = false
+    }
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        picker.dismiss(animated: true)
+        
+        guard let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage else {
+            return
+        }
+        
+        guard let imageData = info[.imageURL] as? URL else {
+            return
+        }
+        
+        imageView.image = image
+        hasPicture = true
+        takePicture.titleLabel?.text = "Go to Menu"
+        
+        uploadImage(fileURL: imageData)
+    }
+    
+    func uploadImage(fileURL: URL) {
+        let ref = storage.child("imageIOS/\(id).jpg")
+        
+        let local = fileURL
+        
+        let uploadTask = ref.putFile(from: local, metadata: nil) { (metadata, err) in
+            guard let metadata = metadata else {
+                print(err?.localizedDescription)
+                return
+            }
+            print("Uploaded")
+        }
     }
     
     func setGameSummary() {

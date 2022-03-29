@@ -137,7 +137,11 @@ class HistoryController: UIViewController, UITableViewDelegate, UITableViewDataS
             shareText += "\((game.toShare())) \n"
         }
         
-        print(shareText)
+        let activityVC = UIActivityViewController(activityItems: [shareText], applicationActivities: [])
+
+        activityVC.popoverPresentationController?.sourceView = sender
+        
+        present(activityVC, animated: true, completion: nil)
     }
     
     @IBAction func SearchByTime(_ sender: Any) {
