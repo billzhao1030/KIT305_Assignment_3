@@ -19,15 +19,15 @@ class PauseController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        if completed == true {
-            //completeButton.titleLabel?.text = "Finish Exercise"
-            completeButton.setTitle("Finish Exercise", for: .normal)
-        } else {
-            //completeButton.titleLabel?.text = "Go back to Menu"
-            completeButton.setTitle("Go back to Menu", for: .normal)
-        }
+        var configuration = UIButton.Configuration.filled()
+        var container = AttributeContainer()
+        container.font = UIFont.boldSystemFont(ofSize: 44)
         
-        completeButton.titleLabel?.font = UIFont.boldSystemFont(ofSize: 44)
+        if completed == true {
+            completeButton.configuration?.attributedTitle = AttributedString("Finish Exercise", attributes: container)
+        } else {
+            completeButton.configuration?.attributedTitle = AttributedString("Go back to Menu", attributes: container)
+        }
     }
     
     func debugResult() {

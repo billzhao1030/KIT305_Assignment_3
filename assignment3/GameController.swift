@@ -405,9 +405,7 @@ class GameController: UIViewController {
         
         if gameType == true {
             if gameMode == true {
-                if isRound == false {
-                    completed = false
-                }
+                completed = false
             }
         }
         let db = Firestore.firestore()

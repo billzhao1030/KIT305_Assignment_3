@@ -36,9 +36,12 @@ class GameFinishController: UIViewController, UIImagePickerControllerDelegate, U
 
     @IBAction func startCamera(_ sender: Any) {
         if hasPicture == false {
-            startCamera()
+            startTheCamera()
             hasPicture = true
-            takePicture.titleLabel?.text = "Go to Menu"
+            var configuration = UIButton.Configuration.filled()
+            var container = AttributeContainer()
+            container.font = UIFont.boldSystemFont(ofSize: 44)
+            takePicture.configuration?.attributedTitle = AttributedString("Go back to Menu", attributes: container)
         } else {
             performSegue(withIdentifier: "unwindToMenuFromFinish", sender: nil)
         }
@@ -52,10 +55,15 @@ class GameFinishController: UIViewController, UIImagePickerControllerDelegate, U
             imagePicker.allowsEditing = false
             
             self.present(imagePicker, animated: true, completion: nil)
+            
+            var configuration = UIButton.Configuration.filled()
+            var container = AttributeContainer()
+            container.font = UIFont.boldSystemFont(ofSize: 40)
+            takePicture.configuration?.attributedTitle = AttributedString("Back to Menu", attributes: container)
         }
     }
     
-    func startCamera() {
+    func startTheCamera() {
         if UIImagePickerController.isSourceTypeAvailable(.camera) {
             let picker = UIImagePickerController()
             picker.sourceType = .camera
@@ -64,8 +72,6 @@ class GameFinishController: UIViewController, UIImagePickerControllerDelegate, U
         } else {
             print("No camera")
         }
-        
-        
     }
     
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
